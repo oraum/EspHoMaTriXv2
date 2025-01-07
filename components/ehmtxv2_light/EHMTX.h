@@ -4,6 +4,7 @@
 #define EHMTX_H
 
 #include "esphome.h"
+#include "EHMTX_icon.h"
 #ifdef USE_ESP32
 #define USE_Fireplugin
 #endif
@@ -43,6 +44,8 @@ const uint16_t POLLINGINTERVAL = 250;
 static const char *const EHMTX_VERSION = "2024.12.3";
 static const char *const TAG = "EHMTXv2";
 
+namespace esphome {
+namespace ehmtx {
 enum show_mode : uint8_t {
   MODE_EMPTY = 0,
   MODE_BLANK = 1,
@@ -73,8 +76,6 @@ enum show_mode : uint8_t {
   MODE_RAINBOW_ALERT_SCREEN = 26
 };
 
-namespace esphome {
-namespace ehmtx {
 class EHMTX_queue;
 class EHMTX_Icon;
 class EHMTXNextScreenTrigger;
@@ -476,44 +477,7 @@ class EHMTXNightModeTrigger : public Trigger<bool> {
   explicit EHMTXNightModeTrigger(EHMTX *parent) { parent->add_on_night_mode_trigger(this); }
   void process(bool);
 };
-/**
- * @brief Class for icon handling and type/animation control
- *
- */
-class EHMTX_Icon : public animation::Animation {
- protected:
-  /**
-   * @brief for pinppong display of animations
-   *
-   */
-  bool counting_up;
 
- public:
-  /**
-   * @brief Construct a new ehmtx icon object
-   *
-   * @param data_start
-   * @param width
-   * @param height
-   * @param animation_frame_count
-   * @param type
-   * @param icon_name
-   * @param revers play reverse
-   * @param frame_duration time per frame
-   */
-  explicit EHMTX_Icon(const uint8_t *data_start, int width, int height, uint32_t animation_frame_count,
-                      esphome::image::ImageType type, std::string icon_name, bool revers, uint16_t frame_duration);
-
-#ifdef USE_ESP32
-  PROGMEM std::string name;
-#endif
-#ifdef USE_ESP8266
-  std::string name;
-#endif
-  uint16_t frame_duration;
-  void next_frame();
-  bool reverse;
-};
 }  // namespace ehmtx
 }  // namespace esphome
 

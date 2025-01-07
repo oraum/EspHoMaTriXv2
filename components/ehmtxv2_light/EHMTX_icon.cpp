@@ -1,4 +1,4 @@
-#include "esphome.h"
+#include "EHMTX.h"
 
 namespace esphome {
 namespace ehmtx {
@@ -6,11 +6,12 @@ namespace ehmtx {
 EHMTX_Icon::EHMTX_Icon(const uint8_t *data_start, int width, int height, uint32_t animation_frame_count,
                        esphome::image::ImageType type, std::string icon_name, bool revers, uint16_t frame_duration)
     : Animation(data_start, width, height, animation_frame_count, type),
+      counting_up(false),
       name(icon_name),
-      reverse(revers),
       frame_duration(frame_duration),
-      transparent_(false),
-      counting_up(false) {}
+      reverse(revers) {
+  this->transparent_ = false;
+}
 
 void EHMTX_Icon::next_frame() {
   if (this->get_animation_frame_count() > 1) {
