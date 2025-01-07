@@ -775,7 +775,6 @@ namespace esphome
   void EHMTX::setup()
   {
     ESP_LOGD(TAG, "Setting up services");
-    register_service(&EHMTX::get_status, "get_status");
     register_service(&EHMTX::set_display_on, "display_on");
     register_service(&EHMTX::set_display_off, "display_off");
     register_service(&EHMTX::hold_screen, "hold_screen", {"time"});
@@ -1353,47 +1352,6 @@ namespace esphome
   void EHMTX::hold_screen(int time)
   {
     this->next_action_time = this->get_tick() + time * 1000.0;
-  }
-
-  void EHMTX::get_status()
-  {
-    time_t ts = this->clock->now().timestamp;
-    ESP_LOGI(TAG, "status time: %d.%d.%d %02d:%02d", this->clock->now().day_of_month,
-             this->clock->now().month, this->clock->now().year,
-             this->clock->now().hour, this->clock->now().minute);
-    ESP_LOGI(TAG, "status brightness: %d (0..255)", this->brightness_);
-    ESP_LOGI(TAG, "status date format: %s", EHMTXv2_DATE_FORMAT);
-    ESP_LOGI(TAG, "screen_pointer: %d", this->screen_pointer);
-    if (this->screen_pointer != MAXQUEUE)
-    {
-      ESP_LOGI(TAG, "current screen mode: %d", this->queue[this->screen_pointer]->mode);
-    }
-    else
-    {
-      ESP_LOGI(TAG, "screenpointer at max");
-    }
-    ESP_LOGI(TAG, "status time format: %s", EHMTXv2_TIME_FORMAT);
-    ESP_LOGI(TAG, "status date format: %s", EHMTXv2_DATE_FORMAT);
-    ESP_LOGI(TAG, "status display %s", this->show_display ? F("on") : F("off"));
-    ESP_LOGI(TAG, "status night mode %s", this->night_mode ? F("on") : F("off"));
-    ESP_LOGI(TAG, "status weekday accent %s", this->weekday_accent ? F("on") : F("off"));
-    ESP_LOGI(TAG, "status replace time and date %s", this->replace_time_date_active ? F("on") : F("off"));
-
-    this->queue_status();
-  }
-
-  void EHMTX::queue_status()
-  {
-    uint8_t empty = 0;
-    for (uint8_t i = 0; i < MAXQUEUE; i++)
-    {
-      if (this->queue[i]->mode != MODE_EMPTY)
-        this->queue[i]->status();
-      else
-        empty++;
-    }
-    if (empty > 0)
-      ESP_LOGI(TAG, "queue: %d empty slots", empty);
   }
 
   void EHMTX::set_default_font(display::BaseFont *font)
