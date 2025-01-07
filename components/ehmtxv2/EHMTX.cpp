@@ -20,11 +20,11 @@
 // #define EHMTXv2_ADV_BOOT_MODE_0
 
 #ifdef USE_ESP32
-  #ifdef EHMTXv2_ADV_BOOT
-    #if defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
-      #define CHECK_BIT(var, pos) (var & (1 << pos))
-    #endif
-  #endif
+#ifdef EHMTXv2_ADV_BOOT
+#if defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
+#define CHECK_BIT(var, pos) (var & (1 << pos))
+#endif
+#endif
 #endif
 
 namespace esphome
@@ -66,9 +66,9 @@ namespace esphome
 #endif
 
 #ifdef USE_ESP32
-  #ifdef EHMTXv2_ADV_BOOT
+#ifdef EHMTXv2_ADV_BOOT
     this->boot_logo = nullptr;
-  #endif
+#endif
 #endif
 
     for (uint8_t i = 0; i < MAXQUEUE; i++)
@@ -83,17 +83,16 @@ namespace esphome
     this->set_clock_color();
     this->set_adv_clock_color();
 #endif
-
   }
 
-/**
- * @brief display a indicator on the right side
- *
- * @param r red
- * @param g green
- * @param b blue
- * @param size 1-3
- */
+  /**
+   * @brief display a indicator on the right side
+   *
+   * @param r red
+   * @param g green
+   * @param b blue
+   * @param size 1-3
+   */
   void EHMTX::show_rindicator(int r, int g, int b, int size)
   {
     if (size > 0)
@@ -108,14 +107,14 @@ namespace esphome
     }
   }
 
-/**
- * @brief display a indicator on the left side
- *
- * @param r red
- * @param g green
- * @param b blue
- * @param size 1-3
- */
+  /**
+   * @brief display a indicator on the left side
+   *
+   * @param r red
+   * @param g green
+   * @param b blue
+   * @param size 1-3
+   */
   void EHMTX::show_lindicator(int r, int g, int b, int size)
   {
     if (size > 0)
@@ -130,16 +129,16 @@ namespace esphome
     }
   }
 
-/**
- * @brief line indicator in the Icons area on the specified screen
- *
- * @param r red
- * @param g green
- * @param b blue
- * @param size ??
- * @param pos ??
- * @param height ??
- */
+  /**
+   * @brief line indicator in the Icons area on the specified screen
+   *
+   * @param r red
+   * @param g green
+   * @param b blue
+   * @param size ??
+   * @param pos ??
+   * @param height ??
+   */
   void EHMTX::show_icon_indicator(int r, int g, int b, int size, int pos, int height)
   {
     if (size > 0)
@@ -156,40 +155,39 @@ namespace esphome
     }
   }
 
-/**
- * @brief hides the right indicator
- *
- */
+  /**
+   * @brief hides the right indicator
+   *
+   */
   void EHMTX::hide_rindicator()
   {
     this->display_rindicator = 0;
     ESP_LOGD(TAG, "hide rindicator");
   }
 
-/**
- * @brief * @brief hides the left indicator
- *
- */
+  /**
+   * @brief * @brief hides the left indicator
+   *
+   */
   void EHMTX::hide_lindicator()
   {
     this->display_lindicator = 0;
     ESP_LOGD(TAG, "hide lindicator");
   }
 
-
-/**
- * @brief hides the icon indicator
- */
+  /**
+   * @brief hides the icon indicator
+   */
   void EHMTX::hide_icon_indicator()
   {
     this->display_icon_indicator = 0;
     ESP_LOGD(TAG, "hide icon indicator");
   }
 
-/**
- * @brief turns display off
- *
- */
+  /**
+   * @brief turns display off
+   *
+   */
   void EHMTX::set_display_off()
   {
     this->show_display = false;
@@ -199,54 +197,34 @@ namespace esphome
     {
       this->display->clear();
     }
-
-    for (auto *t : on_show_display_triggers_)
-    {
-      t->process(this->show_display);
-    }
   }
 
-/**
- * @brief turns display on
- *
- */
+  /**
+   * @brief turns display on
+   *
+   */
   void EHMTX::set_display_on()
   {
     this->show_display = true;
     ESP_LOGD(TAG, "display on");
-
-    for (auto *t : on_show_display_triggers_)
-    {
-      t->process(this->show_display);
-    }
   }
-/**
- * @brief end night mode
- *
- */
+  /**
+   * @brief end night mode
+   *
+   */
   void EHMTX::set_night_mode_off()
   {
     this->night_mode = false;
     ESP_LOGD(TAG, "night mode off");
-
-    for (auto *t : on_night_mode_triggers_)
-    {
-      t->process(this->night_mode);
-    }
   }
-/**
- * @brief  in night mode not all screens are shown
- *
- */
+  /**
+   * @brief  in night mode not all screens are shown
+   *
+   */
   void EHMTX::set_night_mode_on()
   {
     this->night_mode = true;
     ESP_LOGD(TAG, "night mode on");
-
-    for (auto *t : on_night_mode_triggers_)
-    {
-      t->process(this->night_mode);
-    }
   }
 
   void EHMTX::set_weekday_accent_off()
@@ -254,58 +232,58 @@ namespace esphome
     this->weekday_accent = false;
     ESP_LOGD(TAG, "weekday accent off");
   }
-/**
- * @brief turns on the display of small days (accent) of the week when brightness is insufficient
- *
- */
+  /**
+   * @brief turns on the display of small days (accent) of the week when brightness is insufficient
+   *
+   */
   void EHMTX::set_weekday_accent_on()
   {
     this->weekday_accent = true;
     ESP_LOGD(TAG, "weekday accent on");
   }
-/**
- * @brief sets the default color for the line indication the actuall day of week
- *
- * @param r
- * @param g
- * @param b
- */
+  /**
+   * @brief sets the default color for the line indication the actuall day of week
+   *
+   * @param r
+   * @param g
+   * @param b
+   */
   void EHMTX::set_today_color(int r, int g, int b)
   {
     this->today_color = Color((uint8_t)r, (uint8_t)g, (uint8_t)b);
     ESP_LOGD(TAG, "default today color r: %d g: %d b: %d", r, g, b);
   }
 
-/**
- * @brief sets the default color for the line indication the other days
- *
- * @param r
- * @param g
- * @param b
- */
+  /**
+   * @brief sets the default color for the line indication the other days
+   *
+   * @param r
+   * @param g
+   * @param b
+   */
   void EHMTX::set_weekday_color(int r, int g, int b)
   {
     this->weekday_color = Color((uint8_t)r, (uint8_t)g, (uint8_t)b);
     ESP_LOGD(TAG, "default weekday color: %d g: %d b: %d", r, g, b);
   }
-/**
- * @brief some mode look better with wider icons
- *
- * @param mode the screen mode
- */
+  /**
+   * @brief some mode look better with wider icons
+   *
+   * @param mode the screen mode
+   */
   void EHMTX::expand_icon_to_9(int mode)
   {
     this->icon_to_9 = mode;
     ESP_LOGD(TAG, "icon expanded to 9 mode: %d", mode);
   }
-/**
- * @brief helper to check trailing chars for behavior selection
- *
- * @param fullString the text to examine
- * @param ending the characters to look for
- * @return true
- * @return false
- */
+  /**
+   * @brief helper to check trailing chars for behavior selection
+   *
+   * @param fullString the text to examine
+   * @param ending the characters to look for
+   * @return true
+   * @return false
+   */
   bool EHMTX::string_has_ending(std::string const &fullString, std::string const &ending)
   {
     if (fullString.length() >= ending.length())
@@ -317,13 +295,13 @@ namespace esphome
       return false;
     }
   }
-/**
- * @brief Get the icon name object
- *
- * @param iconname icon name with additional parameters after `delim`
- * @param delim the delimiter
- * @return std::string the cleaned up iconname
- */
+  /**
+   * @brief Get the icon name object
+   *
+   * @param iconname icon name with additional parameters after `delim`
+   * @param delim the delimiter
+   * @return std::string the cleaned up iconname
+   */
   std::string get_icon_name(std::string iconname, char delim = '|')
   {
     std::stringstream stream(iconname);
@@ -360,7 +338,7 @@ namespace esphome
   }
 
 #ifdef USE_ESP32
-  #ifdef EHMTXv2_ADV_BOOT
+#ifdef EHMTXv2_ADV_BOOT
   void EHMTX::set_boot_logo(std::string logo)
   {
     if (logo == "")
@@ -372,11 +350,11 @@ namespace esphome
 
     if (this->boot_logo == NULL)
     {
-    #if defined EHMTXv2_ADV_BOOT_MODE_0 || defined EHMTXv2_ADV_BOOT_MODE_1
+#if defined EHMTXv2_ADV_BOOT_MODE_0 || defined EHMTXv2_ADV_BOOT_MODE_1
       this->boot_logo = new Color[256];
-    #else
+#else
       this->boot_logo = new uint8_t[256];
-    #endif
+#endif
     }
 
     const size_t CAPACITY = JSON_ARRAY_SIZE(256);
@@ -389,19 +367,19 @@ namespace esphome
     {
       uint16_t buf = v.as<int>();
 
-    #if defined EHMTXv2_ADV_BOOT_MODE_0 || defined EHMTXv2_ADV_BOOT_MODE_1
-      unsigned char b = (((buf) & 0x001F) << 3);
-      unsigned char g = (((buf) & 0x07E0) >> 3); // Fixed: shift >> 5 and << 2
-      unsigned char r = (((buf) & 0xF800) >> 8); // shift >> 11 and << 3
+#if defined EHMTXv2_ADV_BOOT_MODE_0 || defined EHMTXv2_ADV_BOOT_MODE_1
+      unsigned char b = (((buf)&0x001F) << 3);
+      unsigned char g = (((buf)&0x07E0) >> 3); // Fixed: shift >> 5 and << 2
+      unsigned char r = (((buf)&0xF800) >> 8); // shift >> 11 and << 3
       this->boot_logo[i++] = Color(r, g, b);
-    #elif defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
+#elif defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
       this->boot_logo[i++] = (buf > 255) ? 255 : buf;
-    #else
+#else
       this->boot_logo[i++] = (buf == 0) ? 0 : 1;
-    #endif
+#endif
     }
   }
-  #endif
+#endif
 #endif
 
 #ifndef USE_ESP8266
@@ -438,9 +416,9 @@ namespace esphome
     {
       uint16_t buf = v.as<int>();
 
-      unsigned char b = (((buf) & 0x001F) << 3);
-      unsigned char g = (((buf) & 0x07E0) >> 3); // Fixed: shift >> 5 and << 2
-      unsigned char r = (((buf) & 0xF800) >> 8); // shift >> 11 and << 3
+      unsigned char b = (((buf)&0x001F) << 3);
+      unsigned char g = (((buf)&0x07E0) >> 3); // Fixed: shift >> 5 and << 2
+      unsigned char r = (((buf)&0xF800) >> 8); // shift >> 11 and << 3
       Color c = Color(r, g, b);
 
 #ifdef EHMTXv2_ADV_BITMAP
@@ -459,20 +437,6 @@ namespace esphome
     screen->pixels_ = 0;
     screen->scroll_reset = 32;
 #endif
-    if (id == "")
-    {
-      for (auto *t : on_add_screen_triggers_)
-      {
-        t->process("bitmap", (uint8_t)screen->mode);
-      }
-    }
-    else
-    {
-      for (auto *t : on_add_screen_triggers_)
-      {
-        t->process("bitmap: " + id, (uint8_t)screen->mode);
-      }
-    }
     ESP_LOGD(TAG, "bitmap screen: lifetime: %d screen_time: %d", lifetime, screen_time);
     screen->status();
   }
@@ -512,30 +476,14 @@ namespace esphome
     {
       uint16_t buf = v.as<int>();
 
-      unsigned char b = (((buf) & 0x001F) << 3);
-      unsigned char g = (((buf) & 0x07E0) >> 3); // Fixed: shift >> 5 and << 2
-      unsigned char r = (((buf) & 0xF800) >> 8); // shift >> 11 and << 3
+      unsigned char b = (((buf)&0x001F) << 3);
+      unsigned char g = (((buf)&0x07E0) >> 3); // Fixed: shift >> 5 and << 2
+      unsigned char r = (((buf)&0xF800) >> 8); // shift >> 11 and << 3
       Color c = Color(r, g, b);
 
       screen->sbitmap[i++] = c;
     }
 
-    if (id == "")
-    {
-      for (auto *t : on_add_screen_triggers_)
-      {
-        t->process("bitmap small", (uint8_t)screen->mode);
-      }
-      ESP_LOGD(TAG, "small bitmap screen: text: %s lifetime: %d screen_time: %d", text.c_str(), lifetime, screen_time);
-    }
-    else
-    {
-      for (auto *t : on_add_screen_triggers_)
-      {
-        t->process("bitmap small: " + id, (uint8_t)screen->mode);
-      }
-      ESP_LOGD(TAG, "small bitmap screen: id: %s text: %s lifetime: %d screen_time: %d", id.c_str(), text.c_str(), lifetime, screen_time);
-    }
     screen->status();
   }
 
@@ -573,30 +521,14 @@ namespace esphome
     {
       uint16_t buf = v.as<int>();
 
-      unsigned char b = (((buf) & 0x001F) << 3);
-      unsigned char g = (((buf) & 0x07E0) >> 3); // Fixed: shift >> 5 and << 2
-      unsigned char r = (((buf) & 0xF800) >> 8); // shift >> 11 and << 3
+      unsigned char b = (((buf)&0x001F) << 3);
+      unsigned char g = (((buf)&0x07E0) >> 3); // Fixed: shift >> 5 and << 2
+      unsigned char r = (((buf)&0xF800) >> 8); // shift >> 11 and << 3
       Color c = Color(r, g, b);
 
       screen->sbitmap[i++] = c;
     }
 
-    if (id == "")
-    {
-      for (auto *t : on_add_screen_triggers_)
-      {
-        t->process("bitmap small", (uint8_t)screen->mode);
-      }
-      ESP_LOGD(TAG, "small bitmap rainbow screen: text: %s lifetime: %d screen_time: %d", text.c_str(), lifetime, screen_time);
-    }
-    else
-    {
-      for (auto *t : on_add_screen_triggers_)
-      {
-        t->process("bitmap small: " + id, (uint8_t)screen->mode);
-      }
-      ESP_LOGD(TAG, "small bitmap rainbow screen: id: %s text: %s lifetime: %d screen_time: %d", id.c_str(), text.c_str(), lifetime, screen_time);
-    }
     screen->status();
   }
 
@@ -659,10 +591,6 @@ namespace esphome
       if (icon == MAXICONS)
       {
         ESP_LOGW(TAG, "icon %d/%s not found => skip", icon, tokens[i].c_str());
-        for (auto *t : on_icon_error_triggers_)
-        {
-          t->process(tokens[i]);
-        }
       }
       else
       {
@@ -687,10 +615,7 @@ namespace esphome
     screen->default_font = false;
     screen->calc_scroll_time(screen->icon, screen_time);
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->text, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "bitmap stack: has %d icons from: [%s] screen_time: %d", screen->icon, icons.c_str(), screen_time);
     screen->status();
   }
@@ -778,9 +703,9 @@ namespace esphome
     {
       uint16_t buf = v.as<int>();
 
-      unsigned char b = (((buf) & 0x001F) << 3);
-      unsigned char g = (((buf) & 0x07E0) >> 3); // Fixed: shift >> 5 and << 2
-      unsigned char r = (((buf) & 0xF800) >> 8); // shift >> 11 and << 3
+      unsigned char b = (((buf)&0x001F) << 3);
+      unsigned char g = (((buf)&0x07E0) >> 3); // Fixed: shift >> 5 and << 2
+      unsigned char r = (((buf)&0xF800) >> 8); // shift >> 11 and << 3
       Color c = Color(r, g, b);
       this->cgauge[i++] = c;
       this->display_gauge = true;
@@ -1019,12 +944,6 @@ namespace esphome
         ESP_LOGD(TAG, "time sync => start running");
 
         this->is_running = true;
-
-        for (auto *t : on_start_running_triggers_)
-        {
-          ESP_LOGD(TAG, "on_start_running_triggers");
-          t->process();
-        }
       }
     }
     else
@@ -1120,7 +1039,7 @@ namespace esphome
     }
     else
     {
-        // Queue is empty
+      // Queue is empty
     }
     this->queue[hit]->status();
 
@@ -1183,70 +1102,6 @@ namespace esphome
           if (this->queue[i]->mode != MODE_EMPTY)
           {
             ESP_LOGD(TAG, "remove expired queue element: slot %d: mode: %d icon_name: %s text: %s", i, this->queue[i]->mode, this->queue[i]->icon_name.c_str(), this->queue[i]->text.c_str());
-            for (auto *t : on_expired_screen_triggers_)
-            {
-              infotext = "";
-              switch (this->queue[i]->mode)
-              {
-              case MODE_EMPTY:
-                break;
-              case MODE_BLANK:
-                infotext = "blank";
-                break;
-              case MODE_COLOR:
-                infotext = "color";
-                break;
-              case MODE_CLOCK:
-              case MODE_RAINBOW_CLOCK:
-                infotext = "clock";
-                break;
-              case MODE_DATE:
-              case MODE_RAINBOW_DATE:
-                infotext = "date";
-                break;
-              case MODE_FULL_SCREEN:
-                infotext = "full screen: " + this->queue[i]->icon_name;
-                break;
-              case MODE_ICON_SCREEN:
-              case MODE_RAINBOW_ICON:
-              case MODE_ICON_CLOCK:
-              case MODE_ICON_DATE:
-              case MODE_ICON_PROGRESS:
-              case MODE_ICON_TEXT_SCREEN:
-              case MODE_RAINBOW_ICON_TEXT_SCREEN:
-              case MODE_TEXT_PROGRESS:
-              case MODE_PROGNOSIS_SCREEN:
-                infotext = this->queue[i]->icon_name.c_str();
-                break;
-              case MODE_ALERT_SCREEN:
-              case MODE_RAINBOW_ALERT_SCREEN:
-                infotext = ("alert: " + this->queue[i]->icon_name).c_str();
-                break;
-              case MODE_GRAPH_SCREEN:
-                infotext = ("graph: " + this->queue[i]->icon_name).c_str();
-                break;
-              case MODE_RAINBOW_TEXT:
-              case MODE_TEXT_SCREEN:
-                infotext = "text";
-                break;
-              case MODE_BITMAP_SMALL:
-              case MODE_RAINBOW_BITMAP_SMALL:
-                infotext = ("bitmap small: " + this->queue[i]->icon_name).c_str();
-                break;
-              case MODE_BITMAP_SCREEN:
-                infotext = ("bitmap: " + this->queue[i]->icon_name).c_str();
-                break;
-              case MODE_BITMAP_STACK_SCREEN:
-                infotext = ("bitmap stack: " + this->queue[i]->text).c_str();
-                break;
-              case MODE_FIRE:
-                infotext = "fire";
-                break;
-              default:
-                break;
-              }
-              t->process(this->queue[i]->icon_name, infotext);
-            }
           }
           this->queue[i]->mode = MODE_EMPTY;
           if (this->queue[i]->sbitmap != NULL)
@@ -1370,91 +1225,10 @@ namespace esphome
           }
           this->next_action_time = this->queue[this->screen_pointer]->last_time + this->queue[this->screen_pointer]->screen_time_;
           // Todo switch for Triggers
-          if (this->queue[this->screen_pointer]->mode == MODE_CLOCK)
-          {
-            for (auto *t : on_next_clock_triggers_)
-            {
-              t->process();
-            }
-          }
-          else
-          {
-            for (auto *t : on_next_screen_triggers_)
-            {
-              ESP_LOGD(TAG, "on_next_screen trigger");
-              std::string infotext = "";
-              switch (this->queue[this->screen_pointer]->mode)
-              {
-              case MODE_EMPTY:
-                infotext = "empty";
-                break;
-              case MODE_BLANK:
-                infotext = "blank";
-                break;
-              case MODE_COLOR:
-                infotext = "color";
-                break;
-              case MODE_CLOCK:
-              case MODE_RAINBOW_CLOCK:
-                infotext = "clock";
-                break;
-              case MODE_DATE:
-              case MODE_RAINBOW_DATE:
-                infotext = "date";
-                break;
-              case MODE_FULL_SCREEN:
-                infotext = "full screen " + this->queue[this->screen_pointer]->icon_name;
-                break;
-              case MODE_ICON_SCREEN:
-              case MODE_RAINBOW_ICON:
-              case MODE_ICON_CLOCK:
-              case MODE_ICON_DATE:
-              case MODE_ICON_PROGRESS:
-              case MODE_ICON_TEXT_SCREEN:
-              case MODE_RAINBOW_ICON_TEXT_SCREEN:
-              case MODE_TEXT_PROGRESS:
-              case MODE_PROGNOSIS_SCREEN:
-                infotext = this->queue[this->screen_pointer]->icon_name.c_str();
-                break;
-              case MODE_ALERT_SCREEN:
-              case MODE_RAINBOW_ALERT_SCREEN:
-                infotext = ("alert: " + this->queue[this->screen_pointer]->icon_name).c_str();
-                break;
-              case MODE_GRAPH_SCREEN:
-                infotext = ("graph: " + this->queue[this->screen_pointer]->icon_name).c_str();
-                break;
-              case MODE_RAINBOW_TEXT:
-              case MODE_TEXT_SCREEN:
-                infotext = "text";
-                break;
-              case MODE_BITMAP_SMALL:
-              case MODE_RAINBOW_BITMAP_SMALL:
-                infotext = ("bitmap small: " + this->queue[this->screen_pointer]->icon_name).c_str();
-                break;
-              case MODE_BITMAP_SCREEN:
-                infotext = ("bitmap: " + this->queue[this->screen_pointer]->icon_name).c_str();
-                break;
-              case MODE_BITMAP_STACK_SCREEN:
-                infotext = ("bitmap stack: " + this->queue[this->screen_pointer]->text).c_str();
-                break;
-              case MODE_FIRE:
-                infotext = "fire";
-                break;
-              default:
-                break;
-              }
-              t->process(infotext, this->queue[this->screen_pointer]->text);
-            }
-          }
         }
         else
         {
-          this->next_action_time = ts + 15000 ; // come back in 15 Seconds
-          for (auto *t : on_empty_queue_triggers_)
-          {
-              ESP_LOGD(TAG, "on_empty_queue trigger");
-              t->process();
-            }
+          this->next_action_time = ts + 15000; // come back in 15 Seconds
         }
       }
 
@@ -1485,79 +1259,79 @@ namespace esphome
     else
     {
 #ifdef USE_ESP32
-  #ifdef EHMTXv2_ADV_BOOT
+#ifdef EHMTXv2_ADV_BOOT
       if (this->boot_logo != NULL)
       {
-    #if defined EHMTXv2_ADV_BOOT_MODE_0 || defined EHMTXv2_ADV_BOOT_MODE_2 || defined EHMTXv2_ADV_BOOT_MODE_4 || defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
-      #if defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
-        if (this->boot_anim % 8 == 0 )
-      #endif
-        for (uint8_t x = 0; x < 32; x++)
-        {
-          for (uint8_t y = 0; y < 8; y++)
+#if defined EHMTXv2_ADV_BOOT_MODE_0 || defined EHMTXv2_ADV_BOOT_MODE_2 || defined EHMTXv2_ADV_BOOT_MODE_4 || defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
+#if defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
+        if (this->boot_anim % 8 == 0)
+#endif
+          for (uint8_t x = 0; x < 32; x++)
           {
-      #ifdef EHMTXv2_ADV_BOOT_MODE_0
-            this->display->draw_pixel_at(x, y, this->boot_logo[x + y * 32]);
-      #else
-        #if defined EHMTXv2_ADV_BOOT_MODE_2 || defined EHMTXv2_ADV_BOOT_MODE_4
+            for (uint8_t y = 0; y < 8; y++)
+            {
+#ifdef EHMTXv2_ADV_BOOT_MODE_0
+              this->display->draw_pixel_at(x, y, this->boot_logo[x + y * 32]);
+#else
+#if defined EHMTXv2_ADV_BOOT_MODE_2 || defined EHMTXv2_ADV_BOOT_MODE_4
             if (this->boot_logo[x + y * 32] == 1)
             {
-          #ifdef EHMTXv2_ADV_BOOT_MODE_2
+#ifdef EHMTXv2_ADV_BOOT_MODE_2
               this->display->draw_pixel_at(x, y, Color(C_RED, C_GREEN, C_BLUE));
-          #else
+#else
               this->display->draw_pixel_at(x, y, this->rainbow_color);
-          #endif
+#endif
             }
-        #endif
-        #if defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
+#endif
+#if defined EHMTXv2_ADV_BOOT_MODE_6 || defined EHMTXv2_ADV_BOOT_MODE_7
             if (CHECK_BIT(this->boot_logo[x + y * 32], ((this->boot_anim % 64) / 8)))
             {
-          #ifdef EHMTXv2_ADV_BOOT_MODE_6
+#ifdef EHMTXv2_ADV_BOOT_MODE_6
               this->display->draw_pixel_at(x, y, Color(C_RED, C_GREEN, C_BLUE));
-          #else
+#else
               this->display->draw_pixel_at(x, y, this->rainbow_color);
-          #endif
+#endif
             }
-        #endif
-      #endif
+#endif
+#endif
+            }
           }
-        }
-    #endif
-    #if defined EHMTXv2_ADV_BOOT_MODE_1 || defined EHMTXv2_ADV_BOOT_MODE_3 || defined EHMTXv2_ADV_BOOT_MODE_5
-        if (this->boot_anim % 8 == 0 )
+#endif
+#if defined EHMTXv2_ADV_BOOT_MODE_1 || defined EHMTXv2_ADV_BOOT_MODE_3 || defined EHMTXv2_ADV_BOOT_MODE_5
+        if (this->boot_anim % 8 == 0)
         {
           uint8_t w = (2 + (uint8_t)(32 / 16) * (this->boot_anim * 2 / 16)) % 32;
           uint8_t l = 16 - w / 2;
           uint8_t r = 15 + w / 2;
           for (uint8_t y = 0; y < 8; y++)
           {
-      #if defined EHMTXv2_ADV_BOOT_MODE_3 || defined EHMTXv2_ADV_BOOT_MODE_5
+#if defined EHMTXv2_ADV_BOOT_MODE_3 || defined EHMTXv2_ADV_BOOT_MODE_5
             if (this->boot_logo[l + y * 32] == 1)
             {
-        #ifdef EHMTXv2_ADV_BOOT_MODE_3
+#ifdef EHMTXv2_ADV_BOOT_MODE_3
               this->display->draw_pixel_at(l, y, Color(C_RED, C_GREEN, C_BLUE));
-        #else
+#else
               this->display->draw_pixel_at(l, y, this->rainbow_color);
-        #endif
+#endif
             }
             if (this->boot_logo[r + y * 32] == 1)
             {
-        #ifdef EHMTXv2_ADV_BOOT_MODE_3
+#ifdef EHMTXv2_ADV_BOOT_MODE_3
               this->display->draw_pixel_at(r, y, Color(C_RED, C_GREEN, C_BLUE));
-        #else
+#else
               this->display->draw_pixel_at(r, y, this->rainbow_color);
-        #endif
+#endif
             }
-      #endif
-      #ifdef EHMTXv2_ADV_BOOT_MODE_1
+#endif
+#ifdef EHMTXv2_ADV_BOOT_MODE_1
             this->display->draw_pixel_at(l, y, this->boot_logo[l + y * 32]);
             this->display->draw_pixel_at(r, y, this->boot_logo[r + y * 32]);
-      #endif
+#endif
           }
         }
-    #endif
+#endif
       }
-  #endif
+#endif
 #endif
 
 #ifndef EHMTXv2_ADV_BOOT
@@ -1755,10 +1529,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, iconname.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(iconname);
-      }
     }
     EHMTX_queue *screen = this->find_mode_queue_element(MODE_ALERT_SCREEN);
 
@@ -1772,10 +1542,7 @@ namespace esphome
     screen->calc_scroll_time(text, screen_time);
     // time needed for scrolling
     screen->endtime = this->get_tick() + screen->screen_time_;
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "alert screen icon: %d iconname: %s text: %s screen_time: %d", icon, iconname.c_str(), text.c_str(), screen_time);
     screen->status();
 
@@ -1790,10 +1557,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, iconname.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(iconname);
-      }
     }
     EHMTX_queue *screen = this->find_mode_queue_element(MODE_RAINBOW_ALERT_SCREEN);
 
@@ -1806,10 +1569,7 @@ namespace esphome
     screen->calc_scroll_time(text, screen_time);
     // time needed for scrolling
     screen->endtime = this->get_tick() + screen->screen_time_;
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "alert screen rainbow icon: %d iconname: %s text: %s screen_time: %d", icon, iconname.c_str(), text.c_str(), screen_time);
     screen->status();
 
@@ -1827,10 +1587,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_ICON_SCREEN, id);
 
@@ -1842,10 +1598,7 @@ namespace esphome
     screen->icon = icon;
     screen->calc_scroll_time(text, screen_time);
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "icon screen icon: %d iconname: %s text: %s lifetime: %d screen_time: %d", icon, iconname.c_str(), text.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -1868,10 +1621,7 @@ namespace esphome
     screen->pixels_ = 0;
     screen->scroll_reset = 32;
 #endif
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "text progress screen text: %s value: %s progress %d lifetime: %d screen_time: %d", text.c_str(), value.c_str(), progress, lifetime, screen_time);
     screen->status();
   }
@@ -1887,10 +1637,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_ICON_PROGRESS, id);
 
@@ -1904,10 +1650,7 @@ namespace esphome
                                                                   : progress;
     screen->calc_scroll_time(text, screen_time);
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "icon progress screen icon: %d iconname: %s text: %s progress %d lifetime: %d screen_time: %d", icon, iconname.c_str(), text.c_str(), progress, lifetime, screen_time);
     screen->status();
   }
@@ -1934,10 +1677,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_ICON_CLOCK, id);
 
@@ -1952,10 +1691,7 @@ namespace esphome
     screen->pixels_ = 0;
     screen->scroll_reset = 32;
 #endif
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "icon clock icon: %d iconname: %s lifetime: %d screen_time: %d", icon, iconname.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -1971,10 +1707,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_ICON_DATE, id);
 
@@ -1989,10 +1721,7 @@ namespace esphome
     screen->pixels_ = 0;
     screen->scroll_reset = 32;
 #endif
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "icon date icon: %d iconname: %s lifetime: %d screen_time: %d", icon, iconname.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -2008,10 +1737,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_RAINBOW_ICON, id);
 
@@ -2023,10 +1748,7 @@ namespace esphome
     screen->icon = icon;
     screen->calc_scroll_time(text, screen_time);
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "rainbow icon screen icon: %d iconname: %s text: %s lifetime: %d screen_time: %d", icon, iconname.c_str(), text.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -2076,10 +1798,7 @@ namespace esphome
     screen->mode = MODE_BLANK;
     screen->screen_time_ = showtime * 1000.0;
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process("blank", (uint8_t)screen->mode);
-    }
+
     screen->status();
   }
 
@@ -2090,10 +1809,7 @@ namespace esphome
     screen->screen_time_ = showtime * 1000.0;
     screen->text_color = Color(r, g, b);
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process("color", (uint8_t)screen->mode);
-    }
+
     screen->status();
   }
 
@@ -2133,10 +1849,7 @@ namespace esphome
     screen->pixels_ = 0;
     screen->scroll_reset = 32;
 #endif
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process("Fire", (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "fire screen: lifetime: %d screen_time:%d ", lifetime, screen_time);
     screen->status();
   }
@@ -2149,10 +1862,7 @@ namespace esphome
     if (icon == MAXICONS)
     {
       ESP_LOGW(TAG, "full screen: icon %d not found => default: 0", icon);
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(iconname);
-      }
+
       icon = 0;
     }
     EHMTX_queue *screen = this->find_icon_queue_element(icon);
@@ -2166,10 +1876,7 @@ namespace esphome
     screen->pixels_ = 0;
     screen->scroll_reset = 32;
 #endif
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "full screen: icon: %d iconname: %s lifetime: %d screen_time:%d ", icon, iconname.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -2219,10 +1926,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_ICON_TEXT_SCREEN, id);
 
@@ -2234,10 +1937,7 @@ namespace esphome
     screen->icon = icon;
     screen->calc_scroll_time(text, screen_time);
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
+
     ESP_LOGD(TAG, "icon text screen icon: %d iconname: %s text: %s lifetime: %d screen_time: %d", icon, iconname.c_str(), text.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -2253,10 +1953,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_RAINBOW_ICON_TEXT_SCREEN, id);
 
@@ -2267,10 +1963,6 @@ namespace esphome
     screen->icon = icon;
     screen->calc_scroll_time(text, screen_time);
     screen->endtime = this->get_tick() + (lifetime > 0 ? lifetime * 60000.0 : screen->screen_time_);
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
     ESP_LOGD(TAG, "rainbow icon text screen icon: %d iconname: %s text: %s lifetime: %d screen_time: %d", icon, iconname.c_str(), text.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -2291,10 +1983,6 @@ namespace esphome
     {
       ESP_LOGW(TAG, "icon %d/%s not found => default: 0", icon, ic.c_str());
       icon = 0;
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(ic);
-      }
     }
 
     EHMTX_queue *screen = this->find_mode_icon_queue_element(MODE_PROGNOSIS_SCREEN, id);
@@ -2348,10 +2036,6 @@ namespace esphome
       screen->text_color = screen->sbitmap[0];
     }
 
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process(screen->icon_name, (uint8_t)screen->mode);
-    }
     ESP_LOGD(TAG, "icon prognosis screen prognosis: %s", prognosis.c_str());
     ESP_LOGD(TAG, "icon prognosis screen icon: %d iconname: %s text: %s prognosis: %d lifetime: %d screen_time: %d", icon, iconname.c_str(), text.c_str(), static_cast<uint8_t>(i / 3), lifetime, screen_time);
     screen->status();
@@ -2489,10 +2173,6 @@ namespace esphome
     this->graph->set_height(8);
     this->graph->set_width(32);
 
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process("graph", (uint8_t)screen->mode);
-    }
     screen->status();
   }
 
@@ -2503,10 +2183,6 @@ namespace esphome
     if (icon == MAXICONS)
     {
       ESP_LOGW(TAG, "graph screen with icon: icon %d not found => default: 0", icon);
-      for (auto *t : on_icon_error_triggers_)
-      {
-        t->process(iconname);
-      }
       graph_screen(lifetime, screen_time);
       return;
     }
@@ -2526,10 +2202,6 @@ namespace esphome
     this->graph->set_height(8);
     this->graph->set_width(24);
 
-    for (auto *t : on_add_screen_triggers_)
-    {
-      t->process("graph", (uint8_t)screen->mode);
-    }
     ESP_LOGD(TAG, "graph screen with icon: icon: %d iconname: %s lifetime: %d screen_time:%d ", icon, iconname.c_str(), lifetime, screen_time);
     screen->status();
   }
@@ -2634,7 +2306,7 @@ namespace esphome
     if (!std::regex_search(format, match, rgx))
       return false;
 
-  #ifdef EHMTXv2_FLIP_FLOP
+#ifdef EHMTXv2_FLIP_FLOP
     static uint8_t hours;
     static uint8_t minutes;
     static uint8_t seconds;
@@ -2643,7 +2315,7 @@ namespace esphome
     uint8_t h = this->clock->now().hour;
     uint8_t m = this->clock->now().minute;
     uint8_t s = this->clock->now().second;
-  #endif
+#endif
 
     std::vector<std::string> parts;
     std::vector<uint8_t> len;
@@ -2664,18 +2336,18 @@ namespace esphome
             output = this->clock->now().strftime(output);
             output = this->replace_time_date(output);
 
-  #ifdef EHMTXv2_FLIP_FLOP
+#ifdef EHMTXv2_FLIP_FLOP
             seconds = s; // Disable Flip Flop for Seconds if AM/PM
-  #endif
+#endif
           }
           else
           {
-  #ifdef EHMTXv2_FLIP_FLOP
+#ifdef EHMTXv2_FLIP_FLOP
             if (output == "%I" && h > 12) // check for 12-hour clock
             {
               h = h - 12; // Switch to 12-hour clock
             }
-  #endif
+#endif
             output = this->clock->now().strftime(output);
           }
         }
@@ -2705,7 +2377,7 @@ namespace esphome
             c_ = color;
           }
 
-  #ifdef EHMTXv2_FLIP_FLOP
+#ifdef EHMTXv2_FLIP_FLOP
           bool step = false;
           uint8_t y = ystep / EHMTXv2_FLIP_FLOP_SPEED;
 
@@ -2809,15 +2481,15 @@ namespace esphome
             ystep++;
             if (ystep == 8 * EHMTXv2_FLIP_FLOP_SPEED)
             {
-              hours   = h;
+              hours = h;
               minutes = m;
               seconds = s;
               ystep = 0;
             }
           }
-  #else
+#else
           this->display->printf(x, ypos, font, c_, display::TextAlign::BASELINE_LEFT, "%s", parts.at(i).c_str());
-  #endif
+#endif
         }
         x += len.at(i);
       }
@@ -2890,7 +2562,7 @@ namespace esphome
 
   void EHMTX::draw_text(std::string text, esphome::display::BaseFont *font, Color color, int xpos, int ypos)
   {
-  #ifdef EHMTXv2_MULTICOLOR_TEXT
+#ifdef EHMTXv2_MULTICOLOR_TEXT
     std::size_t pos = text.find("#");
     if (pos == std::string::npos)
     {
@@ -2898,9 +2570,9 @@ namespace esphome
       return;
     }
 
-    std::regex regex ("(#[A-Fa-f0-9]{6})|(.+?)");
+    std::regex regex("(#[A-Fa-f0-9]{6})|(.+?)");
 
-    std::regex_iterator<std::string::iterator> next ( text.begin(), text.end(), regex );
+    std::regex_iterator<std::string::iterator> next(text.begin(), text.end(), regex);
     std::regex_iterator<std::string::iterator> end;
 
     std::vector<std::string> res;
@@ -2913,10 +2585,10 @@ namespace esphome
       {
         if (iter.length() > 0)
         {
-          res.push_back (iter);
+          res.push_back(iter);
           iter = "";
         }
-        res.push_back (part);
+        res.push_back(part);
       }
       else
       {
@@ -2926,12 +2598,12 @@ namespace esphome
     }
     if (iter.length() > 0)
     {
-      res.push_back (iter);
+      res.push_back(iter);
     }
 
     Color c = color;
     int x = xpos;
-    std::regex is_color ("^#[A-Fa-f0-9]{6}$");
+    std::regex is_color("^#[A-Fa-f0-9]{6}$");
     for (int i = 0; i < res.size(); i++)
     {
       if (res.at(i).length() > 0)
@@ -2941,7 +2613,7 @@ namespace esphome
         {
           if (r + g + b > 0)
           {
-            c = Color(r, g ,b);
+            c = Color(r, g, b);
           }
           else
           {
@@ -2955,16 +2627,16 @@ namespace esphome
         }
       }
     }
-  #else
+#else
     this->display->print(xpos, ypos, font, color, esphome::display::TextAlign::BASELINE_LEFT, text.c_str());
-  #endif
+#endif
   }
 
 #ifdef EHMTXv2_RAINBOW_SHIMMER
   void EHMTX::draw_rainbow_text(std::string text, esphome::display::BaseFont *font, int xpos, int ypos)
   {
-    uint16_t str_len  = GetTextCharCount(text);
-    uint16_t x        = 0;
+    uint16_t str_len = GetTextCharCount(text);
+    uint16_t x = 0;
 
     for (uint16_t i = 0; i < str_len; i++)
     {
@@ -3041,11 +2713,11 @@ namespace esphome
 
     for (int i = 0; i < strlen(text.c_str());)
     {
-      if(text[i] & 0x80)
+      if (text[i] & 0x80)
       {
-        if(text[i] & 0x20)
+        if (text[i] & 0x20)
         {
-          if(text[i] & 0x10)
+          if (text[i] & 0x10)
           {
             i += 4;
           }
@@ -3298,48 +2970,4 @@ namespace esphome
     }
   }
 
-  void EHMTXStartRunningTrigger::process()
-  {
-    this->trigger();
-  }
-
-  void EHMTXEmptyQueueTrigger::process()
-  {
-    this->trigger();
-  }
-
-  void EHMTXNextScreenTrigger::process(std::string iconname, std::string text)
-  {
-    this->trigger(iconname, text);
-  }
-
-  void EHMTXAddScreenTrigger::process(std::string iconname, uint8_t mode)
-  {
-    this->trigger(iconname, mode);
-  }
-
-  void EHMTXIconErrorTrigger::process(std::string iconname)
-  {
-    this->trigger(iconname);
-  }
-
-  void EHMTXExpiredScreenTrigger::process(std::string iconname, std::string text)
-  {
-    this->trigger(iconname, text);
-  }
-
-  void EHMTXNextClockTrigger::process()
-  {
-    this->trigger();
-  }
-
-  void EHMTXShowDisplayTrigger::process(bool state)
-  {
-    this->trigger(state);
-  }
-
-  void EHMTXNightModeTrigger::process(bool state)
-  {
-    this->trigger(state);
-  }
 }
