@@ -38,7 +38,9 @@
         // cpp
         "ms-vscode.cpptools",
         // editorconfig
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        // linting
+        "fnando.linter"
       ],
       "settings": {
         "python.languageServer": "Pylance",
