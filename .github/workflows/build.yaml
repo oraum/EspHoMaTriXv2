@@ -3,60 +3,25 @@ name: Build
 on:
   workflow_dispatch:
   push:
-    branches:
-      - 2023.8.0
-      - main
   pull_request:
 
 jobs:
   build-stable:
-    name: Build ${{ matrix.firmware.name }}
+    name: Build stable ${{ matrix.firmware.name }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         firmware:
-          - file: tests/ulanzi-easy.yaml
+          - file: tests/ulanzi-test.yaml
             name: Ulanzi-Easy
-            manifest_filename: ulanzi-easy-manifest.json
-          - file:  tests/ehtmxv2-template.yaml
-            name: EHMTX template
-            manifest_filename: ehtmxv2-template-manifest.json
-          - file:  tests/ehtmxv2-special.yaml
-            name: EHMTX template 8266
-            manifest_filename: ehtmxv2-special-template-manifest.json
-        devfirmware:
-          - file: tests/ulanzi-easy.yaml
-            name: Ulanzi-Easy
-            manifest_filename: ulanzi-easy-manifest.json
+            manifest_filename: ulanzi-test-manifest.json
       fail-fast: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3.3.0
       - name: Build firmware
-        uses: esphome/build-action@v1.8.0
+        uses: esphome/build-action@v3
         id: esphome-build
         with:
           yaml_file: ${{ matrix.firmware.file }}
           version: latest
-  build-develop:
-    name: Build ${{ matrix.firmware.name }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        firmware:
-          - file: tests/ulanzi-easy.yaml
-            name: Ulanzi-Easy
-            manifest_filename: ulanzi-easy-manifest.json
-          - file:  tests/ehtmxv2-special.yaml
-            name: EHMTX template 8266
-            manifest_filename: ehtmxv2-special-template-manifest.json
-      fail-fast: false
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3.3.0
-      - name: Build firmware
-        uses: esphome/build-action@v1.8.0
-        id: esphome-build
-        with:
-          yaml_file: ${{ matrix.firmware.file }}
-          version: beta

@@ -1,8 +1,7 @@
 name: Publish wiki
 on:
   push:
-    branches: 
-      - 2023.8.0
+    branches:
       - main
     paths:
       - wiki/**
@@ -16,5 +15,5 @@ jobs:
   publish-wiki:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: Andrew-Chen-Wang/github-wiki-action@v4
+      - uses: actions/checkout@v4
+      - uses: Andrew-Chen-Wang/github-wiki-action@v4.4.0

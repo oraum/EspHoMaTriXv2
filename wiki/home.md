@@ -4,23 +4,34 @@
 
 - [Display a timer on your ehmtxv2](display-timer)
 - [weather display](weather-display)
-- [matrix used as "circle"](rotating-text)
 
-## Configuration
+## Basic Configuration
 
+- [Fonts for the display](fonts)
+- [Time and date display](time-date-display)
+- [Time & Date Formats](time-date-format)
+- [Set parameter on startup](startup-settings)
+- [Special clock and date display duration](special-clock-and-date-display-duration)
 - [Ulanzi upside-down](rotate-ULANZI-display-180-degrees)
-- [Use all icons in your blueprint](use-icons-in-blueprints)
-- [Time & Date Formats](time-format)
+- [Problem with own services in the yaml](problem-with-text-as-variable-name)
+- [Display RTL text](rtl-text)
+- [overview of default icons](default_icons.html)
+
+## Intermediate & Advanced Configuration
+
 - [Blueprints for easier configuration](blueprints)
-- [time and date display](time-date-display)
-- [special clock and date display duration](special-clock-and-date-display-duration)
-- [set parameter on startup](startup-settings)
-- [fonts for the display](fonts)
+- [Use all icons in your blueprint](use-icons-in-blueprints)
+- [Matrix used as "circle" (rotating text)](rotating-text)
+- [Small clock with icon](icon-clock)
+- [Showing graphs on the display](using-graphs)
+- [Replacing text in date and time](time-date-replace)
+- [Solution for RTL text](https://github.com/idodov/bidi)
 
 ## Problems
 
 - [Boot loop and Guru mediation error](gurumediationerror)
 
-## Defective / Broken Ulanzi TC-001?
+## Ulanzi TC-001 specials?
 
-- [Read this](broken-Ulanzi)
+- [hint to repair](broken-Ulanzi)
+- [modify ulanzi hardware](ulanzi-hardware-mode)

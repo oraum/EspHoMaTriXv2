@@ -2,15 +2,15 @@ substitutions:
   devicename: ulanzi
   friendly_name: LED Matrix
   board: esp32dev
-  # Pin definition from https://github.com/aptonline/PixelIt_Ulanzi 
-  battery_pin: GPIO34 
-  ldr_pin: GPIO35 
-  matrix_pin: GPIO32 
-  left_button_pin: GPIO26 
-  mid_button_pin: GPIO27 
-  right_button_pin: GPIO14 
-  scl_pin: GPIO22 
-  sda_pin: GPIO21 
+  # Pin definition from https://github.com/aptonline/PixelIt_Ulanzi
+  battery_pin: GPIO34
+  ldr_pin: GPIO35
+  matrix_pin: GPIO32
+  left_button_pin: GPIO26
+  mid_button_pin: GPIO27
+  right_button_pin: GPIO14
+  scl_pin: GPIO22
+  sda_pin: GPIO21
 
 switch:
   - platform: template
@@ -19,11 +19,7 @@ switch:
     icon: mdi:brightness-auto
     restore_mode: RESTORE_DEFAULT_ON
     lambda: |-
-      if (id(aab_enable)) {
-        return true;
-      } else {
-        return false;
-      }
+      return id(aab_enable);
     turn_on_action:
       lambda: |-
         id(aab_enable) = true;
@@ -49,15 +45,13 @@ globals:
 
 external_components:
   - source:
-      type: git
-      url: https://github.com/lubeda/EspHoMaTriXv2
-      ref: main
-    refresh: 60s 
-    components: [ ehmtxv2 ]   
+      type: local
+      path: ../components
+    components: [ ehmtxv2 ]
 
 esphome:
   comment: "EHMTXv2 from LuBeDa"
-  name: $devicename 
+  name: $devicename
   project:
     name: "Ulanzi.EHMTXv2"
     version: "2.0.0"
@@ -69,25 +63,12 @@ esp32:
   board: esp32dev
 
 font:
-  # Font included in this folder
-  # - file: mateine.ttf
-  #   size: 16
-  #   id: default_font
-  #   glyphs:  |
-  #     !?"%()+*=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnÖÄÜöäüopqrstuvwxyz@<>ß§€/
-  # Matrix Clock Fonts
-  # Grab these from https://github.com/trip5/Matrix-Fonts
-  # See https://github.com/lubeda/EspHoMaTriXv2#font
-  # Store in a "fonts" subfolder of your ESPHome config folder or change paths below
-  - file: fonts/MatrixLight8.bdf
+  - file: ehmtx.ttf
+    size: 16
     id: default_font
-    glyphs:  |
-      ! "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz°
-  - file: fonts/MatrixChunky6.bdf
-    id: special_font
-    glyphs:  |
-      ! "#$%&'()*+,-./0123456789:APMTapmt
-  
+    glyphs:  |-
+       !?"%()+*=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnÖÄÜöäüopqrstuvwxyz@<>ß€/
+
 binary_sensor:
   - platform: status
     name: "$devicename Status"
@@ -97,13 +78,13 @@ binary_sensor:
       inverted: true
     name: "Left button"
   - platform: gpio
-    pin: 
+    pin:
       inverted: true
       number: $mid_button_pin
       mode: INPUT_PULLUP
     name: "Middle button"
   - platform: gpio
-    pin: 
+    pin:
       number: $right_button_pin
       inverted: true
     name: "Right button"
@@ -172,9 +153,10 @@ sensor:
               int d = (n - c) * 100 / c; // diff in %
               if ( abs(d) > 2 ) id(rgb8x32)->set_brightness(n);
             }
-      
+
 ota:
-  password: !secret ota_password
+  - platform: esphome
+    password: !secret ota_password
 
 wifi:
   ssid: !secret wifi_ssid
@@ -200,7 +182,7 @@ light:
     gamma_correct: 2.0
     name: "$devicename Light"
     restore_mode: ALWAYS_OFF
-    
+
 time:
   - platform: homeassistant
     on_time_sync:
@@ -223,11 +205,10 @@ display:
       return (y * 32) + (31 - x);
     rotation: 0°
     update_interval: 16ms
-    auto_clear_enabled: true
     lambda: |-
       id(rgb8x32)->tick();
       id(rgb8x32)->draw();
-      
+
 ehmtxv2:
   id: rgb8x32
   icons2html: true
@@ -241,12 +222,8 @@ ehmtxv2:
   # special_font_id: default_font
   # Comment out below if using mateine font
   default_font_id: default_font
-  default_font_yoffset: 8
-  special_font_id: special_font
-  special_font_yoffset: 6
-  # until here
-  boot_logo: "[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,63519,63519,63519,63519,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,63519,0,0,0,0,2016,0,0,0,0,0,0,0,0,0,0,31,0,0,0,0,0,0,0,0,0,63488,0,63488,0,0,0,63519,0,0,0,0,2016,2016,0,0,0,65514,0,65514,0,0,0,31,0,0,0,64512,0,0,64512,0,63488,63488,0,63488,63488,0,0,63519,63519,63519,0,0,2016,0,2016,0,65514,0,65514,0,65514,0,31,31,31,0,0,0,64512,64512,0,0,63488,63488,63488,63488,63488,0,0,63519,0,0,0,0,2016,0,2016,0,65514,0,65514,0,65514,0,0,31,0,0,0,0,64512,64512,0,0,0,63488,63488,63488,0,0,0,63519,63519,63519,63519,0,2016,0,2016,0,65514,0,65514,0,65514,0,0,0,31,31,0,64512,0,0,64512,0,0,0,63488,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]"
-  icons: 
+  special_font_id: default_font
+  icons:
     - id: error
       lameid: 40530
     - id: home_assistant
@@ -262,10 +239,26 @@ ehmtxv2:
     - id: car
       lameid: 2819
     - id: sleep8x32
-      url: https://user-images.githubusercontent.com/16407309/224850723-634c9b2d-55d9-44f2-9f93-765c0485b090.gif 
+      url: https://user-images.githubusercontent.com/16407309/224850723-634c9b2d-55d9-44f2-9f93-765c0485b090.gif
+  on_empty_queue:
+    then:
+      lambda: |-
+        id(rgb8x32)->clock_screen(10,10);
+        id(rgb8x32)->date_screen(10,5);
+  on_start_running:
+     then:
+       lambda: |-
+          id(rgb8x32)->bitmap_screen("[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,63519,63519,63519,63519,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,63519,0,0,0,0,2016,0,0,0,0,0,0,0,0,0,0,31,0,0,0,0,0,0,0,0,0,63488,0,63488,0,0,0,63519,0,0,0,0,2016,2016,0,0,0,65514,0,65514,0,0,0,31,0,0,0,64512,0,0,64512,0,63488,63488,0,63488,63488,0,0,63519,63519,63519,0,0,2016,0,2016,0,65514,0,65514,0,65514,0,31,31,31,0,0,0,64512,64512,0,0,63488,63488,63488,63488,63488,0,0,63519,0,0,0,0,2016,0,2016,0,65514,0,65514,0,65514,0,0,31,0,0,0,0,64512,64512,0,0,0,63488,63488,63488,0,0,0,63519,63519,63519,63519,0,2016,0,2016,0,65514,0,65514,0,65514,0,0,0,31,31,0,64512,0,0,64512,0,0,0,63488,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]",1,10);
+          id(rgb8x32)->bitmap_small("[2016,0,0,0,2016,0,0,0,2016,0,0,0,2016,0,0,0,2016,0,0,0,2016,0,0,0,0,2016,0,2016,0,31,31,0,0,0,2016,0,31,0,0,31,0,0,0,0,0,0,31,0,0,0,0,0,0,31,0,0,0,0,0,0,31,31,31,31]", "2023.x.y", 1, 10);
+          id(rgb8x32)->clock_screen(10,10);
+          id(rgb8x32)->date_screen(10,5);
   on_next_screen:
     - homeassistant.event:
         event: esphome.new_screen
         data_template:
           iconname: !lambda "return icon.c_str();"
           text: !lambda "return text.c_str();"
+animation:
+  - id: animation_black
+    file: 1pixel.gif
+
